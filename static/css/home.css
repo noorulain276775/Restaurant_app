@@ -1,0 +1,261 @@
+body {
+    background: #3a3a3a;
+  }
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -250px;
+    margin-left: -400px;
+  }
+  .message-box {
+    height: 200px;
+    width: 380px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: 50px;
+    color: #FFF;
+    font-family: Roboto;
+    font-weight: 300;
+  }
+  .message-box h1 {
+    font-size: 60px;
+    line-height: 46px;
+    margin-bottom: 40px;
+  }
+  .buttons-con .action-link-wrap {
+    margin-top: 40px;
+  }
+  .buttons-con .action-link-wrap button {
+    background: #e920a3;
+    padding: 8px 25px;
+    border-radius: 12px;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 15px;
+    transition: all 0.3s linear;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: 10px
+  }
+
+
+  .buttons-con .action-link-wrap button:hover {
+    background: #5A5C6C;
+    color: #fff;
+  }
+  
+  #Polygon-1 , #Polygon-2 , #Polygon-3 , #Polygon-4 , #Polygon-4, #Polygon-5 {
+    animation: float 1s infinite ease-in-out alternate;
+  }
+  #Polygon-2 {
+    animation-delay: .2s; 
+  }
+  #Polygon-3 {
+    animation-delay: .4s; 
+  }
+  #Polygon-4 {
+    animation-delay: .6s; 
+  }
+  #Polygon-5 {
+    animation-delay: .8s; 
+  }
+  
+  @keyframes float {
+    100% {
+      transform: translateY(20px);
+    }
+  }
+  @media (max-width: 450px) {
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -250px;
+      margin-left: -190px;
+    }
+    .message-box {
+      top: 50%;
+      left: 50%;
+      margin-top: -100px;
+      margin-left: -190px;
+      text-align: center;
+    }
+  }
+
+  body {
+    text-align:right;
+    margin-right:20px;
+    font-family:helvetica;
+  }
+  
+  .login-button{
+    background: #e920a3;
+    border:none;
+    padding:12px 26px;
+    border-radius:2px;
+    color:white;
+    margin:10px auto;
+    cursor:pointer;
+    font-weight:bold;
+  }
+  
+  .login-button:hover{
+    background:#5A5C6C;
+  }
+  
+  a{
+    text-decoration:none;
+    color:#5A5C6C;
+  }
+  
+  #modal-box {
+    border-radius: 45px;
+    width: 500px;
+    margin: 0 auto;
+    background:white;
+  }
+  
+  .close {
+    display:none;
+    float: right;
+    font-size: 46px;
+    margin-right: 18px;
+    color: grey;
+    cursor:pointer;
+  }
+  
+  #panel {
+    text-align:center;
+    height: 400px;
+  }
+  
+  #tabbox{
+      text-align: center;
+      margin: 0 auto;
+      padding: 4% 0% 0%;
+      width: 94%; 
+  }
+  
+  .tab {
+    background: #505050;
+    display: inline-block;
+    line-height: 40px;
+    text-align: center;
+    width: 46%;
+    font-weight: bold;
+  }
+  
+  .tab:hover{
+    background:#3a3a3a; 
+  }
+  
+  #tabbox a {
+    color: white;
+    margin: -3px;
+    padding: 1%;
+    text-decoration: none;
+  }
+  
+  .signup {
+    margin-left: 1px;
+  }
+  
+  .login-select {
+    background-color: #e920a3;
+  }
+  
+  .login-select:hover{
+    background-color: #e920a3;
+  }
+  
+  #login{
+    margin-left:-2px; 
+  }
+  
+  #signupbox {
+    border-radius: 45px;
+    padding: 10px 10px 36px;
+    height: 100%;
+    background-color: #FFF;
+    margin-top: 1%;
+  }
+  
+  #loginbox {
+    border-radius: 45px;
+    padding: 10px 10px 36px;
+    height: 100%;
+    display: none;
+    background-color: #FFF;
+    margin-top: 1%;
+  }
+  
+  #forgetbox {
+    padding: 10px 10px 36px;
+    height: 100%;
+    display: none;
+    background-color: #FFF;
+    margin-top: 1%;
+  }
+  
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    padding-top: 60px;
+  }
+  
+  #signupbox input{
+      width: 90%;
+      margin: 2% auto;
+      padding: 2%;  
+      border: none;
+      background: #3a3a3a;
+      color: white;
+  }
+  
+  #loginbox input{
+      width: 90%;
+      margin: 2% auto;
+      padding: 2%;  
+      border: none;
+      background: #3a3a3a;
+      color: white;
+  }
+  
+  #forgetbox input{
+      width: 90%;
+      margin: 2% auto;
+      padding: 2%;  
+      border: none;
+      background: #3a3a3a;
+      color: white;
+  }
+  
+  #signupbox input::-webkit-input-placeholder, #loginbox input::-webkit-input-placeholder, #forgetbox input::-webkit-input-placeholder{
+      color:grey; 
+  }
+  
+  #loginbox a{
+    display:block;
+    margin: 2% 2% 4%; 
+  }
+  
+  #signupbox button, #loginbox button, #forgetbox button{
+      background: #e920a3;
+      border: none;
+      padding: 12px 30px;
+      color: white;
+      cursor: pointer;
+      width: 90%;
+      margin-top: 30px; 
+  }

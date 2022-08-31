@@ -1,0 +1,288 @@
+{% extends 'menu_base.html' %}
+{% load static %}
+{% load rest_framework %}
+
+{% block title %}
+Welcome
+{% endblock title%}
+
+{% block body %}
+{% csrf_token %}
+
+
+<!-- Header-->
+<header class="bg-dark py-5" style="padding-right: -15px;">
+  <div class="container px-4 px-lg-5 my-5">
+    <div class="text-center text-white">
+      <div id="alert-box" style="align-content: center; width: 500px; margin-left: 350px;"></div>
+      <h1 class="display-4 fw-bolder">What are you eating today?</h1>
+      <p class="lead fw-normal text-white-50 mb-2">We have variety of food items!</p>
+      <p class="lead fw-normal text-white-50 mb-0">Welcome! {{request.user.email}}</p>
+    </div>
+  </div>
+  <div class="container">
+    <button type="button" class="login-button" data-toggle="modal" data-target="#cartModal">
+      View Cart
+    </button>
+    <button type="button" style="background-color: white; color:#e920a3" class="login-button" data-toggle="modal"
+      data-target="#orderModal" onclick="orderView()">Order History</button>
+    {% if request.user.is_authenticated %}
+    <button onclick="logout()" style="width:auto;" id="auth" class="login-button">Logout</button>
+    {% else %}
+    <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;" id="auth"
+      class="login-button">Register/Login</button>
+    {% endif %}
+  </div>
+</header>
+
+
+<!--Order Modal-->
+<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      {% if request.user.is_authenticated %}
+      {% if orders %}
+      <div class="modal-header border-bottom-0">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Order History
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="Overflow-y:scroll; height: 500px;">
+        <table class="table table-image">
+          <thead>
+            <tr>
+              <th scope="col">Customer-ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Price</th>
+              <th scope="col">Address</th>
+              <th scope="col">Created at</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in orders %}
+            {% if request.user.id == order.customer %}
+
+            <tr>
+              <td>{{order.customer}}</td>
+              <!-- <td>{% for i in order.order_item %}{{i.item.name}}, {% endfor %}</td> -->
+              <td>{{order.order_item.item.name}}</td>
+              <td>{{order.order_item.item.price}}</td>
+              <td>{{order.address}}</td>
+              <td>{{order.created_at}}</td>
+              <td>{{order.status}}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer border-top-0 d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        {% else %}
+        <table class="table table-image">
+          <h6 style="margin-left: 352px; margin-top: 30px; margin-bottom: 10px;"> No item to display</h6>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            style="width:100px; margin-left: 360px;">Close</button>
+          {% endif %}
+          {% else %}
+          <table class="table table-image">
+            <h6 style="margin-left: 270px; margin-top: 30px; margin-bottom: 10px;">Please login to see your Order
+              history</h6>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"
+              style="width:100px; margin-left: 360px;">Close</button>
+            {% endif %}
+          </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Login Modal-->
+
+<div id="id01" class="modal">
+  <div id="modal-box">
+    <span onclick="document.getElementById('id01').style.display='none'" class="close"
+      title="Close Modal">&times;</span>
+    <div id="tabbox">
+      <a id="signup" class="tab signup">Signup</a>
+      <a id="login" class="tab ">Login</a>
+    </div>
+
+    {% csrf_token %}
+    <div id="panel">
+      <div id="signupbox">
+        <h1>Signup Form</h1>
+        <form action="login" method="post" id="signup_form">
+          <input type="text" placeholder="Enter Email" id="id_email" name="email" required>
+          <input type="password" placeholder="Enter Password" id="id_password" name="password" required>
+          <input type="password" placeholder="Repeat Password" id="id_password2" name="password2" required>
+          <button type="submit" id="id_sign_up">Sign Up</button>
+        </form>
+      </div>
+      <div id="loginbox">
+        <form action="login" method="post" id="signin_form">
+          <h1>Login Here</h1>
+          <input type="text" placeholder="Enter Username" id="email_id" name="email" required>
+          <input type="password" placeholder="Enter Password" id="password_id" name="password" required>
+          <button type="submit" id="id_sign_in">Login</button>
+        </form>
+      </div>
+      <div id="forgetbox">
+        <button type="submit">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Cart Modal-->
+
+<div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      {% if cart %}
+      <div class="modal-header border-bottom-0">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Your Cart
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="Overflow-y:scroll; height: 500px;">
+        <table class="table table-image">
+          <thead>
+            <tr>
+              <th scope="col">Image</th>
+              <th scope="col">Food Item</th>
+              <th scope="col">Price</th>
+              <th scope="col">Item Type</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for c in cart %}
+            <tr>
+              <td class="w-25">
+                <img src="{{c.item.image}}" class="img-fluid img-thumbnail" alt="Sheep">
+              </td>
+              <td>{{c.item.name}}</td>
+              <td>{{c.item.price}}</td>
+              <td>{{c.item.item_type}}</td>
+              <td>
+                <a id="{{c.item.id}}" onclick="deleteitem(this.id)" class="btn btn-danger btn-sm">
+                  <i class="fa fa-times"></i>
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex justify-content-end">
+        <h5 style="margin-right:5px; margin-top:10px">Total: <span class="price text-success"></span></h5>
+      </div>
+      <div class="modal-footer border-top-0 d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        {% if request.user.is_authenticated %}
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmModal">Checkout</button>
+        {% else %}
+        <p>Please Login or register before checkout</p>
+        {% endif %}
+        {% else %}
+        <table class="table table-image">
+          <h6 style="margin-left: 352px; margin-top: 30px; margin-bottom: 10px;"> No item to display</h6>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            style="width:100px; margin-left: 360px;">Close</button>
+          {% endif %}
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      {% if cart %}
+      <div class="modal-header border-bottom-0">
+        <h3 class="modal-title" id="confirmModalLabel"> Order Confirmation
+        </h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"
+        style="Overflow-y:scroll; height:300px; width: 800px; margin-top: 100px; background-color: #3a3a3a ; color:white">
+        {% for c in cart %}
+        <span style="margin-left: 10px;">Item Name: {{c.item.name}}</span>
+        <span style="margin-left: 10px;">Price: {{c.item.price}} AED</span>
+        <hr>
+        {% endfor %}
+        <div class="preference" style="text-align:center">
+          <label for="address">Address</label>
+          <input type="text" style="width: 400px; margin-top:15px;" name="address" id="address" required="">
+        </div>
+      </div>
+      <div class="d-flex justify-content-end">
+        <h5 style="margin-right:5px; margin-top:10px">Total: <span class="price text-success"></span></h5>
+      </div>
+      <div class="modal-footer border-top-0 d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-success" id="{{c.item.id}}" onclick="OrderCreated(this.id)">Confirm</button>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Section-->
+
+<section class="py-5">
+  <section class="container px-4 px-lg-5 mt-5">
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+      {% if data %}
+      {% for d in data %}
+      <div class="col mb-5">
+        <div class="card h-100">
+          <!-- Product image-->
+          <img class="card-img-top" src="{{d.image}}" alt="..." width="100%" , height="300" />
+          <!-- Product details-->
+          <div class="card-body p-4">
+            <div class="text-center">
+              <!-- Product name-->
+              <h5 class="fw-bolder mb-2">{{d.name}}</h5>
+              <!-- Product price-->
+              <h6 style="text-align:left"><b>Price:</b> {{d.price}}</h6>
+              <h6 style="text-align:left"><b>Type:</b> {{d.item_type}}</h6>
+              <h6 style="text-align:left"><b>Description:</b> {{d.description}}</h6>
+            </div>
+          </div>
+          <!-- Product actions-->
+          <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+            <input type="number" min="1" step="1" style="width: 200px; margin-bottom:15px;" name="quantity" value="1"
+              class="vIntegerField" required="" id="quantity">
+            <div class="text-center"><a class="btn btn-outline-dark mt-auto" style="background-color: #e920a3"
+                id="{{d.id}}" data="document.getElementById('quantity').value;"
+                onclick="OrderItem(this.id, this.data)">Add to Cart</a></div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </section>
+</section>
+{% endblock body %}
