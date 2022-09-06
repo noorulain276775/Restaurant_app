@@ -91,6 +91,10 @@ body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+body:not(.modal){
+  padding-right: 0px !important;
+}
+
 hr {
   margin: 1rem 0;
   color: inherit;
@@ -6281,6 +6285,7 @@ fieldset:disabled .btn {
   overflow-x: hidden;
   overflow-y: auto;
   outline: 0;
+  padding-right: 0px !important;
 }
 
 .modal-dialog {
@@ -6288,11 +6293,13 @@ fieldset:disabled .btn {
   width: auto;
   margin: 0.5rem;
   pointer-events: none;
+  padding-right: 0px !important;
 }
 
 .modal.fade .modal-dialog {
   transition: transform 0.3s ease-out;
   transform: translate(0, -50px);
+  padding-right: 0px !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -6303,10 +6310,12 @@ fieldset:disabled .btn {
 
 .modal.show .modal-dialog {
   transform: none;
+  padding-right: 0px !important;
 }
 
 .modal.modal-static .modal-dialog {
   transform: scale(1.02);
+  padding-right: 0px !important;
 }
 
 .modal-dialog-scrollable {
@@ -6339,6 +6348,7 @@ fieldset:disabled .btn {
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0.3rem;
   outline: 0;
+  padding-right: 0px !important;
 }
 
 .modal-backdrop {
@@ -6353,6 +6363,7 @@ fieldset:disabled .btn {
 
 .modal-backdrop.fade {
   opacity: 0;
+  padding-right: 0px !important;
 }
 
 .modal-backdrop.show {
